@@ -1,0 +1,140 @@
+Project name: LaravelPeople10
+
+Description: This project is to store employee details and employee web history in MySQL tables. Can do following process SET, GET and UNSET employee details as well employee web history, through web API and console commands.
+
+Installation: After downloaded package extract and move ‘laravel_people10 ‘ project folder to ‘htdocs’ path (for Windows) or ‘/var/www/html/’  directory (for Linux).
+
+Table of Contents: employees [ id, emp_id, epm_name, ip_address] and employee_web_history [ip_address, url, date] tables. By executing ‘php artisan migrate’ command tables will be inserted to DB. Before run this have to update db configuration in ‘.env’ file.
+
+Usage: 
+Commands List:
+
+* SET:empdata [emp_id] [emp_name] [ip_address]  // Insert the employee details to employee table with data emp_id, emp_name, ip_address.
+* GET:empdata [ip_address]  // Get the employee details having the ip_address
+* UNSET:empdata [ip_address]  // it will delete the data having the passed ip_address
+* SET:empwebhistory [ip_address] [url]?  // It will first check if the ip address is assigned to any employee or not if the ip address is there then it will insert the url  variable [url] to the mapped  ip_address [ip_address], other with it will throw error.
+* GET:empwebhistory [ip_address]  ?// Print out the employee details with his web search history  stored under the variable [ip_address]. if that ip_address doesn’t have any data will return with data not found error code 404.
+* UNSET:empwebhistory [ip_address]?  //Delete all the web search history data mapped with ip_address.
+
+
+API List:
+	
+BASEURL = https://example.com
+
+Following API for Employee detail,
+
+To Insert Employee Detail:
+
+url: BASEURL/empdata
+
+method: post
+InputData: array(	‘emp_id’ => 1 , ‘emp_name’ => ‘sample name’, ‘ip_address’ => ‘192.168.10.10’ );
+
+
+Output: JSON format 
+
+Sample Output,
+{
+"status":"success",
+"status_code":201,
+"message":"Employee Added Successfully"
+} 
+
+
+To Insert Employee Detail:
+
+url: BASEURL/empdata/{ip_address}
+
+method: get
+
+Output: JSON format 
+
+Sample Output,
+{
+  "status": "success",
+  "status_code": 200,
+  "message": "Success",
+  "employee": {
+    "id": 1,
+    "empId": 3,
+    "empName": null,
+    "empIpAddress": "192.168.10.11"
+  }
+}
+
+
+To Delete Employee Detail:
+
+url: BASEURL/empdata/{ip_address}
+
+method: delete
+
+Output: JSON format 
+
+Sample Output,
+{
+    "status": "success",
+    "status_code": 200,
+    "message": "Deleted"
+}
+
+
+Following API for Employee Web History Detail,
+
+To Insert Employee Web History Detail:
+
+url: BASEURL/empwebhistory
+
+method: post
+InputData: array( ‘ip_address’ => ‘192.168.10.10’, ‘url’ => ‘http://facebook.com’ );
+
+
+Output: JSON format 
+
+Sample Output,
+{
+"status":"success",
+"status_code":201,
+"message":"Employee History Added Successfully "
+} 
+
+
+To Insert Employee Web History Detail:
+
+url: BASEURL/empwebhistory/{ip_address}
+
+method: get
+
+Output: JSON format 
+
+Sample Output,
+{
+  "status": "success",
+  "status_code": 200,
+  "message": "Success",
+  "employeewebhistory": {
+    "id": 2,
+    "empIpAddress": "192.168.10.10",
+    "urls": [
+      {
+        "url": "google.com"
+      }
+    ]
+  }
+}
+
+To Delete Employee Web History Detail:
+
+url: BASEURL/empwebhistory/{ip_address}
+
+method: delete
+
+Output: JSON format 
+
+Sample Output,
+{
+    "status": "success",
+    "status_code": 200,
+    "message": "Deleted"
+}
+
